@@ -93,9 +93,9 @@
   /* ---------- Right: form panel ---------- */
   .login-form-panel {
     display: flex;
-    align-items: center;
+    align-items: stretch;   /* card fills the column; the padding below is the "gap" */
     justify-content: center;
-    padding: 40px;
+    padding: 28px;
     background: #fbfbfb;
     min-height: 0;      /* let the grid row shrink instead of pushing the page taller */
     overflow-y: auto;   /* last-resort scroll confined to this column */
@@ -103,14 +103,23 @@
   }
   .login-card {
     width: 100%;
-    max-width: 380px;
     background: #fff;
-    padding: 40px 36px;
-    border-radius: 14px;
+    padding: 48px clamp(24px, 4vw, 56px);
+    border-radius: 18px;
     box-shadow: 0 2px 8px rgba(20,16,10,0.04), 0 12px 32px rgba(20,16,10,0.06);
     border: 1px solid var(--border);
-    /* `margin:auto` centres the card but still allows the top to be reached
-       when it is taller than the viewport (plain align-items:center clips it). */
+    /* The card now spans the whole panel (minus the small gap above). The form
+       itself stays at a comfortable reading width, vertically centred inside. */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .login-card-inner {
+    width: 100%;
+    max-width: 400px;
+    /* `margin:auto` centres the form but still lets the top be reached when the
+       card is too short for the content (plain centering would clip it). */
     margin: auto;
   }
   .login-brand-row {
@@ -216,8 +225,8 @@
   @media (max-width: 860px) {
     .login-screen { grid-template-columns: 1fr; }
     .login-hero { display: none; }
-    .login-form-panel { padding: 24px; min-height: 0; }
-    .login-card { box-shadow: none; border: none; padding: 0; }
+    .login-form-panel { padding: 20px; min-height: 0; }
+    .login-card { box-shadow: none; border: none; padding: 0; border-radius: 0; }
   }
   @media (max-width: 420px) {
     .login-card h2.welcome { font-size: 24px; }
@@ -227,8 +236,8 @@
   /* Short viewports (laptops at 125%/150% scaling, landscape phones):
      compress the card so the whole form still fits without any scrolling. */
   @media (max-height: 760px) {
-    .login-form-panel { padding: 24px; }
-    .login-card { padding: 28px 30px; }
+    .login-form-panel { padding: 22px; }
+    .login-card { padding: 26px clamp(20px, 3.5vw, 44px); }
     .login-brand-row { margin-bottom: 20px; }
     .login-card h2.welcome { font-size: 24px; margin-bottom: 8px; }
     .subtitle { margin-bottom: 18px; font-size: 13px; }
@@ -241,8 +250,8 @@
     .login-hero-eyebrow { font-size: 22px; }
   }
   @media (max-height: 620px) {
-    .login-form-panel { padding: 16px; }
-    .login-card { padding: 22px 24px; }
+    .login-form-panel { padding: 14px; }
+    .login-card { padding: 20px clamp(18px, 3vw, 36px); }
     .login-brand-row { margin-bottom: 14px; }
     .login-brand-row .logo-badge { width: 38px; height: 38px; }
     .login-card h2.welcome { font-size: 21px; margin-bottom: 6px; }
@@ -275,30 +284,32 @@
 
     <div class="login-form-panel">
       <div class="login-card">
-        <div class="login-brand-row">
-          <div class="logo-badge"><img src="../images/icons/jf-fashion-logo.webp" alt="JF Fashion"></div>
-          <div>
-            <p class="login-brand-eyebrow">Store Portal</p>
-            <h1>JF Fashion Admin</h1>
+        <div class="login-card-inner">
+          <div class="login-brand-row">
+            <div class="logo-badge"><img src="../images/icons/jf-fashion-logo.webp" alt="JF Fashion"></div>
+            <div>
+              <p class="login-brand-eyebrow">Store Portal</p>
+              <h1>JF Fashion Admin</h1>
+            </div>
           </div>
+
+          <h2 class="welcome">Welcome back</h2>
+          <p class="subtitle">Sign in securely to manage your products, pricing and photography.</p>
+
+          <div class="error" id="error-box"></div>
+
+          <form id="login-form">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+
+            <button type="submit" id="submit-btn" class="btn btn-primary">Sign In to Dashboard</button>
+          </form>
+
+          <a class="back-link" href="../index.html">&larr; Back to website</a>
         </div>
-
-        <h2 class="welcome">Welcome back</h2>
-        <p class="subtitle">Sign in securely to manage your products, pricing and photography.</p>
-
-        <div class="error" id="error-box"></div>
-
-        <form id="login-form">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username" required>
-
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
-
-          <button type="submit" id="submit-btn" class="btn btn-primary">Sign In to Dashboard</button>
-        </form>
-
-        <a class="back-link" href="../index.html">&larr; Back to website</a>
       </div>
     </div>
 
