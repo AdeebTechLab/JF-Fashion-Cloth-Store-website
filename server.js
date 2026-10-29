@@ -3,7 +3,7 @@
 // serverless functions in api/, and emulates Vercel Blob with plain
 // files on disk so saving/edits work locally without any cloud setup.
 //
-// Run:  node scripts/dev-server.js   (then open http://localhost:3000/admin/login.html)
+// Run:  node server.js   (then open http://localhost:3000/admin/login.html)
 // Or:   npm run dev
 
 const http = require('http');
@@ -11,7 +11,10 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const ROOT = path.join(__dirname, '..');
+const ROOT = __dirname;
+// Storefront + admin panel live in public/ so Vercel can serve them from its CDN.
+// (Vercel only serves static files from the public/ folder when a Node server is detected.)
+const STATIC_ROOT = path.join(ROOT, 'public');
 const PORT = Number(process.env.PORT) || 3000;
 const STORE_DIR = path.join(ROOT, '.local-store');
 
@@ -80,14 +83,14 @@ Module._load = function (request, ...rest) {
 // 3. API handlers
 // ---------------------------------------------------------------------------
 const routes = {
-  '/api/login': require('../api/login'),
-  '/api/logout': require('../api/logout'),
-  '/api/session': require('../api/session'),
-  '/api/products': require('../api/products'),
-  '/api/categories': require('../api/categories'),
-  '/api/coupons': require('../api/coupons'),
-  '/api/settings': require('../api/settings'),
-  '/api/upload': require('../api/upload'),
+  '/api/login': require('./api/login'),
+  '/api/logout': require('./api/logout'),
+  '/api/session': require('./api/session'),
+  '/api/products': require('./api/products'),
+  '/api/categories': require('./api/categories'),
+  '/api/coupons': require('./api/coupons'),
+  '/api/settings': require('./api/settings'),
+  '/api/upload': require('./api/upload'),
 };
 
 // The handlers use Express-style res.status().json() — add those helpers
@@ -132,8 +135,8 @@ function resolveStatic(urlPath) {
   let rel = path.normalize(decoded).replace(/^([/\\])+/, '');
   if (rel === '' || rel === '.') rel = 'index.html';
   if (rel === 'admin') rel = path.join('admin', 'index.html');
-  const abs = path.join(ROOT, rel);
-  if (!abs.startsWith(ROOT + path.sep)) return null;
+  const abs = path.join(STATIC_ROOT, rel);
+  if (!abs.startsWith(STATIC_ROOT + path.sep)) return null;
   if (fs.existsSync(abs) && fs.statSync(abs).isDirectory()) {
     const idx = path.join(abs, 'index.html');
     return fs.existsSync(idx) ? idx : null;
