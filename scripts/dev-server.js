@@ -3,14 +3,15 @@
 // serverless functions in api/, and emulates Vercel Blob with plain
 // files on disk so saving/edits work locally without any cloud setup.
 //
-// Run:  node server.js   (then open http://localhost:3000/admin/login.html)
+// Run:  node scripts/dev-server.js   (then open http://localhost:3000/admin/login.html)
+// Or:   npm run dev
 
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const PORT = Number(process.env.PORT) || 3000;
 const STORE_DIR = path.join(ROOT, '.local-store');
 
@@ -79,14 +80,14 @@ Module._load = function (request, ...rest) {
 // 3. API handlers
 // ---------------------------------------------------------------------------
 const routes = {
-  '/api/login': require('./api/login'),
-  '/api/logout': require('./api/logout'),
-  '/api/session': require('./api/session'),
-  '/api/products': require('./api/products'),
-  '/api/categories': require('./api/categories'),
-  '/api/coupons': require('./api/coupons'),
-  '/api/settings': require('./api/settings'),
-  '/api/upload': require('./api/upload'),
+  '/api/login': require('../api/login'),
+  '/api/logout': require('../api/logout'),
+  '/api/session': require('../api/session'),
+  '/api/products': require('../api/products'),
+  '/api/categories': require('../api/categories'),
+  '/api/coupons': require('../api/coupons'),
+  '/api/settings': require('../api/settings'),
+  '/api/upload': require('../api/upload'),
 };
 
 // The handlers use Express-style res.status().json() — add those helpers
