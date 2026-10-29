@@ -14,7 +14,7 @@
         loadingParentElement: 'html',
         loadingClass: 'animsition-loading-1',
         loadingInner: '<div class="loader05"></div>',
-        timeout: false,
+        timeout: true,
         timeoutCountdown: 5000,
         onLoadEvent: true,
         browser: [ 'animation-duration', '-webkit-animation-duration'],

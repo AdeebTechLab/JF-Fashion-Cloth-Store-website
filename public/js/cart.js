@@ -507,10 +507,10 @@
     // "Use current location" — asks the browser for GPS coordinates, then
     // reverse-geocodes them (via OpenStreetMap's free Nominatim API) into a
     // human-readable address and drops it into the Address/City fields.
-    const geoBtn = modal.querySelector('.js-checkout-geo-btn');
-    const geoStatus = modal.querySelector('.js-checkout-geo-status');
-    const addressField = form.querySelector('#checkout-address');
-    const cityField = form.querySelector('#checkout-city');
+    const geoBtn = modal ? modal.querySelector('.js-checkout-geo-btn') : null;
+    const geoStatus = modal ? modal.querySelector('.js-checkout-geo-status') : null;
+    const addressField = form ? form.querySelector('#checkout-address') : null;
+    const cityField = form ? form.querySelector('#checkout-city') : null;
 
     function setGeoStatus(msg, kind) {
       if (!geoStatus) return;

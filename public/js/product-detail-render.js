@@ -187,6 +187,30 @@
 
     document.title = product.name + ' — JF Fashion';
 
+    // Breadcrumb: the markup ships with a placeholder ("Winter Wear / Quilted
+    // Chiffon Jacket"), so point it at the product actually being viewed.
+    const crumbLink = document.querySelector('.js-crumb-category');
+    const crumbLabel = document.querySelector('.js-crumb-category-label');
+    const crumbName = document.querySelector('.js-crumb-name');
+    if (crumbName) crumbName.textContent = product.name;
+    const categoryKey = Array.isArray(product.categories) && product.categories.length
+      ? String(product.categories[0])
+      : '';
+    if (categoryKey) {
+      if (crumbLink) crumbLink.href = 'product.html?category=' + encodeURIComponent(categoryKey);
+      if (crumbLabel) {
+        let categoryLabels = null;
+        try {
+          const res = await fetch('/api/categories', { cache: 'no-store' });
+          if (res.ok) categoryLabels = await res.json();
+        } catch {
+          // Labels unavailable — fall back to a prettified slug below.
+        }
+        const pretty = categoryKey.replace(/[_-]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+        crumbLabel.textContent = (categoryLabels && categoryLabels[categoryKey]) || pretty;
+      }
+    }
+
     document.querySelectorAll('.js-name-detail').forEach((el) => {
       el.textContent = product.name;
     });
