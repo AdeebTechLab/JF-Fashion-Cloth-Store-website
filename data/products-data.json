@@ -1,0 +1,474 @@
+[
+  {
+    "id": 1,
+    "name": "Embroidered Lawn Kurti",
+    "categories": [
+      "summer-wear"
+    ],
+    "price": 4500,
+    "oldPrice": null,
+    "image": "embroidered-lawn-kurti.webp",
+    "inStock": true,
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "White",
+      "Pink",
+      "Beige"
+    ],
+    "description": "Lightweight lawn kurti with delicate thread embroidery on the neckline and sleeves. Breathable and easy to style for everyday summer wear."
+  },
+  {
+    "id": 2,
+    "name": "Chiffon Party Wear Kurti",
+    "categories": [
+      "summer-wear"
+    ],
+    "price": 9800,
+    "oldPrice": null,
+    "image": "chiffon-party-wear-kurti.webp",
+    "inStock": true,
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Black",
+      "Maroon",
+      "Navy Blue"
+    ],
+    "description": "Flowy chiffon kurti finished with subtle sequin work — a graceful pick for evening events and festive gatherings."
+  },
+  {
+    "id": 3,
+    "name": "Cotton Chino Trouser",
+    "categories": [
+      "winter-wear"
+    ],
+    "price": 7000,
+    "oldPrice": null,
+    "image": "cotton-chino-trouser.webp",
+    "inStock": true,
+    "sizes": [
+      "28",
+      "30",
+      "32",
+      "34",
+      "36"
+    ],
+    "colors": [
+      "Beige",
+      "Black",
+      "Navy Blue"
+    ],
+    "description": "Mid-rise cotton chino trouser with a relaxed straight leg and a comfortable stretch waistband for all-day wear."
+  },
+  {
+    "id": 4,
+    "name": "Wool Blend Trench Coat",
+    "categories": [
+      "summer-wear"
+    ],
+    "price": 20900,
+    "oldPrice": null,
+    "image": "wool-blend-trench-coat.webp",
+    "inStock": true,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Camel",
+      "Beige",
+      "Black"
+    ],
+    "description": "Classic double-breasted trench coat in a warm wool blend, with a belted waist and roomy side pockets."
+  },
+  {
+    "id": 5,
+    "name": "Front Pocket Cardigan",
+    "categories": [
+      "summer-wear"
+    ],
+    "price": 9700,
+    "oldPrice": null,
+    "image": "front-pocket-cardigan.webp",
+    "inStock": true,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Cream",
+      "Grey",
+      "Black"
+    ],
+    "description": "Soft knit cardigan with two front pockets, ribbed cuffs and an open front that layers over almost anything."
+  },
+  {
+    "id": 6,
+    "name": "Embroidered Party Wear Suit",
+    "categories": [
+      "party-wear"
+    ],
+    "price": 25900,
+    "oldPrice": null,
+    "image": "embroidered-party-wear-suit.webp",
+    "inStock": true,
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Maroon",
+      "Green",
+      "Gold"
+    ],
+    "description": "Three-piece party suit with intricate embroidery on the shirt and dupatta, paired with matching trousers."
+  },
+  {
+    "id": 7,
+    "name": "Stretch Cotton Kurti",
+    "categories": [
+      "summer-wear"
+    ],
+    "price": 14600,
+    "oldPrice": null,
+    "image": "stretch-cotton-kurti.webp",
+    "inStock": true,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "White",
+      "Black",
+      "Blue"
+    ],
+    "description": "Everyday stretch cotton kurti with a clean straight cut that moves with you from morning to evening."
+  },
+  {
+    "id": 8,
+    "name": "Metallic Print Chiffon Top",
+    "categories": [
+      "summer-wear"
+    ],
+    "price": 5300,
+    "oldPrice": null,
+    "image": "metallic-print-chiffon-top.webp",
+    "inStock": true,
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "colors": [
+      "Silver",
+      "Gold",
+      "Black"
+    ],
+    "description": "Sheer chiffon top with a shimmering metallic print and a softly gathered neckline."
+  },
+  {
+    "id": 9,
+    "name": "Casual Printed Cotton Co-ord Set",
+    "categories": [
+      "casual-wear"
+    ],
+    "price": 20900,
+    "oldPrice": null,
+    "image": "casual-printed-cotton-coord-set.webp",
+    "inStock": true,
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "White",
+      "Beige",
+      "Blue"
+    ],
+    "description": "Two-piece printed cotton co-ord set — wear it together for a polished look or as easy separates."
+  },
+  {
+    "id": 10,
+    "name": "Striped Cotton T-Shirt",
+    "categories": [
+      "summer-wear"
+    ],
+    "price": 7200,
+    "oldPrice": null,
+    "image": "striped-cotton-tshirt.webp",
+    "inStock": true,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "White",
+      "Navy Blue",
+      "Grey"
+    ],
+    "description": "Comfort-fit cotton t-shirt with classic stripes and a soft ribbed neckline."
+  },
+  {
+    "id": 11,
+    "name": "Cable Knit Wool Sweater",
+    "categories": [
+      "winter-wear"
+    ],
+    "price": 17600,
+    "oldPrice": null,
+    "image": "cable-knit-wool-sweater.webp",
+    "inStock": true,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Cream",
+      "Grey",
+      "Brown"
+    ],
+    "description": "Chunky cable knit sweater in a warm wool blend with dropped shoulders for a cosy, relaxed fit."
+  },
+  {
+    "id": 12,
+    "name": "Quilted Winter Puffer Jacket",
+    "categories": [
+      "winter-wear"
+    ],
+    "price": 17600,
+    "oldPrice": null,
+    "image": "quilted-winter-puffer-jacket.webp",
+    "inStock": true,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Black",
+      "Navy Blue",
+      "Olive"
+    ],
+    "description": "Quilted puffer jacket with a high collar and lightweight insulation to keep winter days warm."
+  },
+  {
+    "id": 13,
+    "name": "Full Sleeve Cotton T-Shirt",
+    "categories": [
+      "summer-wear"
+    ],
+    "price": 5100,
+    "oldPrice": null,
+    "image": "full-sleeve-cotton-tshirt.webp",
+    "inStock": true,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "White",
+      "Black",
+      "Grey"
+    ],
+    "description": "Soft full-sleeve cotton t-shirt with a slim fit — a clean basic for layering all year round."
+  },
+  {
+    "id": 14,
+    "name": "Embellished Party Dress",
+    "categories": [
+      "summer-wear"
+    ],
+    "price": 15200,
+    "oldPrice": null,
+    "image": "embellished-party-dress.webp",
+    "inStock": true,
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Black",
+      "Red",
+      "Silver"
+    ],
+    "description": "Fitted party dress with hand-embellished detailing and a flattering midi length."
+  },
+  {
+    "id": 15,
+    "name": "Sequin Embellished Party Gown",
+    "categories": [
+      "party-wear"
+    ],
+    "price": 24100,
+    "oldPrice": null,
+    "image": "sequin-embellished-party-gown.webp",
+    "inStock": true,
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Gold",
+      "Silver",
+      "Black"
+    ],
+    "description": "Floor-length gown covered in shimmering sequins, with a fitted bodice and a flowing skirt."
+  },
+  {
+    "id": 16,
+    "name": "Square Neck Blouse",
+    "categories": [
+      "summer-wear"
+    ],
+    "price": 8200,
+    "oldPrice": null,
+    "image": "square-neck-blouse.webp",
+    "inStock": true,
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "colors": [
+      "White",
+      "Black",
+      "Pink"
+    ],
+    "description": "Square neck blouse in a smooth fabric with a lightly puffed sleeve and button-back closure."
+  },
+  {
+    "id": 17,
+    "name": "Long Sleeve Cotton T-Shirt",
+    "categories": [
+      "summer-wear"
+    ],
+    "price": 11100,
+    "oldPrice": 13900,
+    "image": "long-sleeve-tshirt.webp",
+    "saleTag": "20% Off",
+    "inStock": true,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "White",
+      "Black",
+      "Navy Blue"
+    ],
+    "description": "Everyday long-sleeve tee in breathable cotton with a relaxed neckline and easy fit."
+  },
+  {
+    "id": 18,
+    "name": "Grey Check Wool Coat",
+    "categories": [
+      "winter-wear"
+    ],
+    "price": 12500,
+    "oldPrice": 15300,
+    "image": "grey-check-coat.webp",
+    "saleTag": "18% Off",
+    "inStock": true,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Grey",
+      "Charcoal"
+    ],
+    "description": "Tailored wool coat in a grey check pattern with a lapel collar and practical side pockets."
+  },
+  {
+    "id": 19,
+    "name": "Silk White Shirt",
+    "categories": [
+      "summer-wear"
+    ],
+    "price": 9700,
+    "oldPrice": 12500,
+    "image": "silk-white-shirt.webp",
+    "saleTag": "22% Off",
+    "inStock": true,
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "White",
+      "Ivory",
+      "Black"
+    ],
+    "description": "Crisp white silk shirt with a soft drape, mother-of-pearl buttons and a relaxed collar."
+  },
+  {
+    "id": 20,
+    "name": "Blue Denim Jeans",
+    "categories": [
+      "winter-wear"
+    ],
+    "price": 9700,
+    "oldPrice": 12500,
+    "image": "blue-jeans-pant.webp",
+    "saleTag": "22% Off",
+    "inStock": true,
+    "sizes": [
+      "28",
+      "30",
+      "32",
+      "34",
+      "36"
+    ],
+    "colors": [
+      "Blue",
+      "Light Blue",
+      "Black"
+    ],
+    "description": "Classic straight-leg denim jeans in a mid-blue wash with a comfortable high rise."
+  }
+]

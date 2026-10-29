@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin Login — JF Fashion</title>
+<link rel="icon" type="image/x-icon" href="../images/icons/jf-fashion-favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../images/icons/jf-fashion-favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../images/icons/jf-fashion-favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../images/icons/jf-fashion-favicon-180.png">
+<link rel="stylesheet" href="admin.css">
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: #fff;
+  }
+  .login-screen {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    min-height: 100vh;
+  }
+
+  /* ---------- Left: hero panel ---------- */
+  .login-hero {
+    position: relative;
+    background: #1a1310 url('/images/deal-of-week-hero.webp') center/cover no-repeat;
+    display: flex;
+    align-items: flex-end;
+    padding: 56px;
+    overflow: hidden;
+  }
+  .login-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,8,7,0.15) 0%, rgba(10,8,7,0.35) 45%, rgba(8,6,5,0.92) 100%);
+  }
+  .login-hero-logo {
+    position: absolute;
+    top: 56px;
+    left: 56px;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    background: #fff;
+    padding: 12px 18px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+  }
+  .login-hero-logo img {
+    height: 30px;
+    width: auto;
+    display: block;
+  }
+  .login-hero-content {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    max-width: 460px;
+  }
+  .login-hero-eyebrow {
+    font-family: PlayfairDisplay-Bold, serif;
+    font-style: italic;
+    font-size: 26px;
+    color: #e7a15c;
+    margin: 0 0 10px;
+  }
+  .login-hero-content h2 {
+    font-family: PlayfairDisplay-Bold, serif;
+    font-size: 40px;
+    line-height: 1.18;
+    margin: 0 0 18px;
+    letter-spacing: 0.2px;
+  }
+  .login-hero-content p {
+    font-family: Poppins-Regular, sans-serif;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.78);
+    margin: 0;
+    max-width: 380px;
+  }
+
+  /* ---------- Right: form panel ---------- */
+  .login-form-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: #fbfbfb;
+  }
+  .login-card {
+    width: 100%;
+    max-width: 380px;
+    background: #fff;
+    padding: 40px 36px;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(20,16,10,0.04), 0 12px 32px rgba(20,16,10,0.06);
+    border: 1px solid var(--border);
+  }
+  .login-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 34px;
+  }
+  .login-brand-row .logo-badge {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+  }
+  .login-brand-eyebrow {
+    font-family: Poppins-SemiBold, sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin: 0 0 3px;
+  }
+  .login-brand-row h1 {
+    font-family: PlayfairDisplay-Bold, serif;
+    font-size: 18px;
+    margin: 0;
+    color: var(--text);
+  }
+  .login-card h2.welcome {
+    font-family: PlayfairDisplay-Bold, serif;
+    font-size: 28px;
+    margin: 0 0 10px;
+    color: var(--text);
+  }
+  .subtitle {
+    font-family: Poppins-Regular, sans-serif;
+    color: var(--muted);
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin: 0 0 28px;
+  }
+  label {
+    display: block;
+    font-family: Poppins-SemiBold, sans-serif;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 7px;
+    color: var(--muted);
+  }
+  input {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border-dark);
+    font-family: Poppins-Regular, sans-serif;
+    font-size: 14px;
+    margin-bottom: 18px;
+    background: #fff;
+    color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input::placeholder { color: #b9b9b9; }
+  input:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(113,127,224,0.15);
+  }
+  .login-card button {
+    width: 100%;
+    padding: 15px;
+    font-size: 12.5px;
+    letter-spacing: 1px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(113,127,224,0.25);
+  }
+  .login-card button:disabled {
+    opacity: 0.7;
+    cursor: default;
+    box-shadow: none;
+  }
+  .error {
+    background: var(--danger-bg);
+    color: var(--danger);
+    border-left: 3px solid var(--danger);
+    padding: 11px 13px;
+    font-family: Poppins-Regular, sans-serif;
+    font-size: 13px;
+    margin-bottom: 18px;
+    display: none;
+  }
+  .back-link {
+    display: block;
+    text-align: center;
+    margin-top: 22px;
+    font-family: Poppins-Regular, sans-serif;
+    font-size: 12.5px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .back-link:hover { color: var(--brand); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px) {
+    .login-screen { grid-template-columns: 1fr; }
+    .login-hero { display: none; }
+    .login-form-panel { padding: 24px; min-height: 100vh; }
+    .login-card { box-shadow: none; border: none; padding: 0; }
+  }
+  @media (max-width: 420px) {
+    .login-card h2.welcome { font-size: 24px; }
+    .login-brand-row .logo-badge { width: 38px; height: 38px; }
+  }
+
+  /* iOS Safari zooms in on focus if an input's font-size is under 16px */
+  @media (max-width: 600px) {
+    input { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+  <div class="login-screen">
+
+    <div class="login-hero">
+      <div class="login-hero-logo">
+        <img src="../images/icons/jf-fashion-logo.webp" alt="JF Fashion">
+      </div>
+      <div class="login-hero-content">
+        <p class="login-hero-eyebrow">JF Fashion</p>
+        <h2>Manage every&nbsp;piece from one place.</h2>
+        <p>Keep your catalogue, pricing and product photography fresh with a simple and secure store dashboard.</p>
+      </div>
+    </div>
+
+    <div class="login-form-panel">
+      <div class="login-card">
+        <div class="login-brand-row">
+          <div class="logo-badge"><img src="../images/icons/jf-fashion-logo.webp" alt="JF Fashion"></div>
+          <div>
+            <p class="login-brand-eyebrow">Store Portal</p>
+            <h1>JF Fashion Admin</h1>
+          </div>
+        </div>
+
+        <h2 class="welcome">Welcome back</h2>
+        <p class="subtitle">Sign in securely to manage your products, pricing and photography.</p>
+
+        <div class="error" id="error-box"></div>
+
+        <form id="login-form">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username" required>
+
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+
+          <button type="submit" id="submit-btn" class="btn btn-primary">Sign In to Dashboard</button>
+        </form>
+
+        <a class="back-link" href="../index.html">&larr; Back to website</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const form = document.getElementById('login-form');
+    const errorBox = document.getElementById('error-box');
+    const submitBtn = document.getElementById('submit-btn');
+
+    // If already logged in, skip straight to the dashboard.
+    fetch('/api/session').then(r => r.json()).then(data => {
+      if (data.authenticated) window.location.href = '/admin/index.html';
+    }).catch(() => {});
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing in…';
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: document.getElementById('username').value,
+            password: document.getElementById('password').value,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Login failed');
+        window.location.href = '/admin/index.html';
+      } catch (err) {
+        errorBox.textContent = err.message;
+        errorBox.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign In to Dashboard';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Product Admin — JF Fashion</title>
+<link rel="icon" type="image/x-icon" href="../images/icons/jf-fashion-favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../images/icons/jf-fashion-favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../images/icons/jf-fashion-favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../images/icons/jf-fashion-favicon-180.png">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div id="auth-gate" class="auth-gate">Checking session…</div>
+
+  <div id="app" class="app hidden">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="logo-badge"><img src="../images/icons/jf-fashion-logo.webp" alt="JF Fashion"></div>
+        <div>
+          <p class="portal-eyebrow">Store Portal</p>
+          <h1>Product Manager</h1>
+          <p class="signed-in-as">Signed in as <span id="username-label"></span></p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button id="edit-categories-btn" class="btn btn-secondary">+ Manage Categories</button>
+        <button id="edit-coupons-btn" class="btn btn-secondary">+ Manage Coupons</button>
+        <button id="edit-delivery-btn" class="btn btn-secondary">+ Delivery &amp; Free Shipping</button>
+        <span id="save-status" class="save-status"></span>
+        <button id="save-btn" class="btn btn-primary">Save Changes</button>
+        <button id="logout-btn" class="btn btn-ghost">Log Out</button>
+      </div>
+    </header>
+
+    <div id="banner" class="banner hidden"></div>
+
+    <main class="main">
+      <div class="dashboard-hero">
+        <div class="dashboard-hero-text">
+          <p class="dashboard-hero-eyebrow">JF Fashion</p>
+          <h2>Keep your catalogue fresh.</h2>
+          <p class="dashboard-hero-sub">Update categories, products, prices and photos from one simple dashboard.</p>
+        </div>
+        <div class="dashboard-hero-badge">
+          <p class="badge-title">Live Store</p>
+          <p class="badge-sub">Changes publish after saving</p>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <button id="add-product-btn" class="btn btn-secondary">+ Add Product</button>
+          <div class="admin-search-wrap">
+            <i class="admin-search-icon">&#128269;</i>
+            <input type="text" id="product-search-input" class="admin-search-input" placeholder="Search products by name…" autocomplete="off">
+            <button type="button" id="product-search-clear" class="admin-search-clear" aria-label="Clear search">&times;</button>
+          </div>
+        </div>
+        <p class="hint">Edit any field, use the <strong>&#9650; &#9660;</strong> arrows to reorder products within a category, then click <strong>Save Changes</strong> to publish it to the live site.</p>
+      </div>
+
+      <p id="search-no-results" class="search-no-results hidden">No products match "<span id="search-no-results-term"></span>".</p>
+
+      <div id="products-container"></div>
+    </main>
+  </div>
+
+  <!-- Template for a category section (one per fixed category) -->
+  <template id="category-section-template">
+    <section class="category-section">
+      <div class="category-section-header">
+        <h2 class="category-section-title"></h2>
+        <span class="category-section-count"></span>
+      </div>
+      <div class="category-products-grid"></div>
+    </section>
+  </template>
+
+  <!-- Template for a single product card -->
+  <template id="product-template">
+    <div class="product-card">
+      <div class="product-photo">
+        <img class="product-photo-img" alt="">
+        <div class="product-order-controls">
+          <button type="button" class="btn-icon move-up-btn" title="Move up" aria-label="Move product up">&#9650;</button>
+          <button type="button" class="btn-icon move-down-btn" title="Move down" aria-label="Move product down">&#9660;</button>
+        </div>
+      </div>
+      <label class="field-label product-gallery-label">Photos</label>
+      <p class="product-gallery-hint">Click &#9733; to make a photo the cover shown on listings and cart. The rest show in this product's own gallery on its page.</p>
+      <div class="product-gallery-grid"></div>
+      <label class="product-gallery-add-tile">
+        <span class="product-gallery-add-label-text">+ Add Photo</span>
+        <input type="file" accept="image/*" multiple class="product-gallery-add-input">
+      </label>
+      <div class="product-fields">
+        <label class="field-label">Name</label>
+        <input type="text" class="p-name-input" placeholder="Product name">
+        <label class="field-label">Description</label>
+<textarea class="p-desc-input" rows="4" placeholder="Fabric, fit, styling tips, care instructions..."></textarea>
+
+       <label class="field-label">Categories (select one or more)</label>
+        <div class="p-category-checkboxes"></div>
+
+        <div class="field-row">
+          <div>
+            <label class="field-label">Price</label>
+            <label class="price-label">Rs. <input type="number" class="p-price-input" min="0" step="1"></label>
+          </div>
+          <div>
+            <label class="field-label">Availability</label>
+            <label class="stock-toggle-label">
+              <input type="checkbox" class="p-instock-input">
+              <span class="stock-toggle-box" aria-hidden="true">&#10003;</span>
+              <span class="stock-toggle-text">In Stock</span>
+            </label>
+          </div>
+        </div>
+
+        <label class="checkbox-label discount-toggle-label">
+          <input type="checkbox" class="p-discount-input"> 🏷️ Apply a discount (show old price crossed out)
+        </label>
+        <div class="field-row discount-row hidden">
+          <label class="price-label discount-price-label">Old Price Rs. <input type="number" class="p-oldprice-input" min="0" step="1"></label>
+          <div>
+            <label class="field-label">Badge Text (auto % off if left blank)</label>
+            <input type="text" class="p-saletag-input" placeholder="e.g. 10% Off">
+          </div>
+        </div>
+
+        <div class="variant-editor" data-variant-editor="size">
+          <label class="field-label">Sizes</label>
+          <div class="variant-chip-list p-size-list"></div>
+          <div class="variant-add-row">
+            <input type="text" class="p-size-add-input" placeholder="e.g. S, M, L, XL">
+            <button type="button" class="btn btn-secondary btn-sm variant-add-btn p-size-add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="variant-editor" data-variant-editor="color">
+          <label class="field-label">Colors</label>
+          <div class="variant-chip-list p-color-list"></div>
+          <div class="variant-add-row">
+            <input type="text" class="p-color-add-input" placeholder="e.g. Red, Blue">
+            <button type="button" class="btn btn-secondary btn-sm variant-add-btn p-color-add-btn">+ Add</button>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-danger btn-sm delete-product-btn">Delete</button>
+    </div>
+  </template>
+
+  <!-- Template for one photo card in a product's own gallery grid (see
+       .product-gallery-grid on each product card above). -->
+  <template id="product-gallery-item-template">
+    <div class="product-gallery-item">
+      <div class="product-gallery-photo">
+        <span class="product-gallery-cover-badge">Cover</span>
+        <img class="product-gallery-img" alt="">
+        <button type="button" class="product-gallery-remove" title="Remove photo" aria-label="Remove photo">&times;</button>
+        <div class="product-gallery-controls">
+          <button type="button" class="product-gallery-move-left" title="Move left" aria-label="Move photo left">&#8249;</button>
+          <button type="button" class="product-gallery-feature" title="Make this the cover photo" aria-label="Make this the cover photo">&#9733;</button>
+          <button type="button" class="product-gallery-move-right" title="Move right" aria-label="Move photo right">&#8250;</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Template for a single size/color chip, with its own delete (x) button -->
+  <template id="variant-chip-template">
+    <span class="variant-chip">
+      <span class="variant-chip-label"></span>
+      <button type="button" class="variant-chip-remove" title="Remove" aria-label="Remove">&times;</button>
+    </span>
+  </template>
+
+  <!-- Categories editor modal: rename, add, or delete storefront categories.
+       Deleting requires typing DELETE to confirm since it also reassigns
+       any products in that category to another one. -->
+  <div id="categories-modal" class="crop-modal hidden">
+    <div class="crop-modal-content">
+      <div class="crop-modal-header">
+        <h2>Manage Categories</h2>
+        <button type="button" id="categories-close-x" class="crop-close-btn" aria-label="Cancel">&times;</button>
+      </div>
+
+      <p class="crop-hint">Rename, add, delete, or reorder the categories shown on the site and in this admin panel — use the <strong>&#9650; &#9660;</strong> arrows to change the order they appear in. Deleting a category moves its products into another category — you'll need to type <strong>DELETE</strong> to confirm.</p>
+
+      <div id="categories-fields" class="categories-fields"></div>
+
+      <button type="button" id="categories-add-btn" class="add-category-btn">+ Add Category</button>
+
+      <div class="crop-modal-actions">
+        <button type="button" id="categories-cancel-btn" class="btn btn-ghost">Cancel</button>
+        <button type="button" id="categories-save-btn" class="btn btn-primary">Save Categories</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coupons editor modal: add, edit, activate/deactivate, or delete
+       storefront discount coupon codes. Rows are built dynamically in JS
+       (see buildCouponRow in admin.js). -->
+  <div id="coupons-modal" class="crop-modal hidden">
+    <div class="crop-modal-content">
+      <div class="crop-modal-header">
+        <h2>Manage Coupons</h2>
+        <button type="button" id="coupons-close-x" class="crop-close-btn" aria-label="Cancel">&times;</button>
+      </div>
+
+      <p class="crop-hint">Add discount codes customers can enter at checkout. Codes are case-insensitive and can only contain letters, numbers, and dashes. Uncheck <strong>Active</strong> to disable a code without deleting it.</p>
+
+      <div id="coupons-fields" class="categories-fields"></div>
+
+      <button type="button" id="coupons-add-btn" class="add-category-btn">+ Add Coupon</button>
+
+      <div class="crop-modal-actions">
+        <button type="button" id="coupons-cancel-btn" class="btn btn-ghost">Cancel</button>
+        <button type="button" id="coupons-save-btn" class="btn btn-primary">Save Coupons</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delivery & free shipping settings modal: a store-wide flat delivery
+       fee, added on top of the cart subtotal at checkout, plus an optional
+       order-value threshold above which delivery becomes free. Stored via
+       /api/settings (see loadSettings/openDeliveryModal in admin.js). -->
+  <div id="delivery-modal" class="crop-modal hidden">
+    <div class="crop-modal-content">
+      <div class="crop-modal-header">
+        <h2>Delivery &amp; Free Shipping</h2>
+        <button type="button" id="delivery-close-x" class="crop-close-btn" aria-label="Cancel">&times;</button>
+      </div>
+
+      <p class="crop-hint">Set the flat delivery charge added to every order's total on the cart page and in the WhatsApp checkout message. Leave it at 0 for free delivery.</p>
+
+      <label class="crop-field">
+        Delivery charge (Rs.)
+        <input type="number" id="delivery-charge-input" min="0" step="1" inputmode="numeric" placeholder="e.g. 200">
+      </label>
+
+      <p class="crop-hint">Optionally waive delivery automatically once a customer's cart total (after any coupon discount) reaches this amount — matches the "Free Shipping" banner on the homepage. Leave empty to never waive it.</p>
+
+      <label class="crop-field">
+        Free shipping over (Rs.)
+        <input type="number" id="free-shipping-threshold-input" min="0" step="1" inputmode="numeric" placeholder="e.g. 5000 — leave empty to disable">
+      </label>
+
+      <div class="crop-modal-actions">
+        <button type="button" id="delivery-cancel-btn" class="btn btn-ghost">Cancel</button>
+        <button type="button" id="delivery-save-btn" class="btn btn-primary">Save Delivery Charge</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Photo crop modal: shown whenever a manager picks/changes a product photo -->
+  <div id="crop-modal" class="crop-modal hidden">
+    <div class="crop-modal-content">
+      <div class="crop-modal-header">
+        <h2>Adjust Photo</h2>
+        <button type="button" id="crop-close-x" class="crop-close-btn" aria-label="Cancel">&times;</button>
+      </div>
+
+      <div class="crop-stage-wrap">
+        <div id="crop-stage" class="crop-stage">
+          <img id="crop-image" class="crop-image" alt="">
+          <div id="crop-box" class="crop-box">
+            <div class="crop-handle crop-handle-nw" data-corner="nw"></div>
+            <div class="crop-handle crop-handle-ne" data-corner="ne"></div>
+            <div class="crop-handle crop-handle-sw" data-corner="sw"></div>
+            <div class="crop-handle crop-handle-se" data-corner="se"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="crop-controls">
+        <label class="crop-field">
+          Width (px)
+          <input type="number" id="crop-width-input" min="20" step="1" inputmode="numeric">
+        </label>
+        <label class="crop-field">
+          Height (px)
+          <input type="number" id="crop-height-input" min="20" step="1" inputmode="numeric">
+        </label>
+        <label class="checkbox-label crop-lock-label">
+          <input type="checkbox" id="crop-lock-aspect" checked> Lock ratio (3:4)
+        </label>
+      </div>
+      <p class="crop-hint">Drag the box to reposition it, drag a corner to resize, or type exact dimensions above.</p>
+
+      <div class="crop-modal-actions">
+        <button type="button" id="crop-cancel-btn" class="btn btn-ghost">Cancel</button>
+        <button type="button" id="crop-apply-btn" class="btn btn-primary">Apply &amp; Upload</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

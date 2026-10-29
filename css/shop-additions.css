@@ -1,0 +1,1542 @@
+.out-of-stock-badge {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	background: rgba(0, 0, 0, 0.75);
+	color: #fff;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.3px;
+	text-transform: uppercase;
+	padding: 5px 10px;
+	border-radius: 3px;
+	z-index: 5;
+}
+
+/*==================================================================
+[ Product grid card mini-gallery ]
+Lets a shopper flip through a product's extra photos (prev/next arrows +
+dots) right on its grid card in js/products-render.js, without needing to
+open Quick View first. Only rendered at all when a product has more than
+one photo. Arrows sit low-opacity by default and brighten on card hover,
+matching the theme's existing Quick View reveal-on-hover pattern; dots sit
+just above where the Quick View pill slides in so the two never overlap. */
+.card-gallery-arrow {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 6;
+	width: 26px;
+	height: 26px;
+	border: none;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, 0.45);
+	color: #fff;
+	font-size: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity 0.3s, background 0.3s;
+}
+.block2-pic:hover .card-gallery-arrow {
+	opacity: 1;
+}
+.card-gallery-arrow:hover {
+	background: rgba(0, 0, 0, 0.8);
+}
+.card-gallery-prev { left: 8px; }
+.card-gallery-next { right: 8px; }
+
+.card-gallery-dots {
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+	right: 0;
+	z-index: 6;
+	display: flex;
+	justify-content: center;
+	gap: 5px;
+}
+.card-gallery-dot {
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.6);
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+	transition: background 0.3s;
+}
+.card-gallery-dot.is-active {
+	background: #fff;
+}
+
+/*==================================================================
+[ Out-of-stock cart rows ]
+Shown on shoping-cart.html when a product already sitting in someone's
+cart gets marked Out of Stock afterwards (see markOutOfStockRows in
+js/cart.js) — dims the row, disables its quantity controls, and shows
+a small red badge next to the item name so it's obvious it needs to be
+removed before checkout can proceed. */
+.cart-item-oos-badge {
+	display: inline-block;
+	margin-left: 8px;
+	background: #fdecea;
+	color: #c0392b;
+	font-size: 10.5px;
+	font-weight: 600;
+	letter-spacing: 0.3px;
+	text-transform: uppercase;
+	padding: 3px 8px;
+	border-radius: 3px;
+	vertical-align: middle;
+}
+tr.cart-row-oos {
+	opacity: 0.6;
+}
+tr.cart-row-oos .js-cart-qty {
+	background: #f2f2f2;
+	cursor: not-allowed;
+}
+
+.js-addcart-detail:disabled,
+.js-addcart-detail.is-disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/*==================================================================
+[ Mandatory Size/Color selection (Quick View + product detail) ]
+The invalid state is shown via .variant-picker-col.is-invalid further
+down (red label + soft outline around the chips) — no border is added
+here, so the two styles don't stack into a double red box. */
+.js-variant-error {
+	background: #fdecea;
+	border-left: 3px solid #c0392b;
+	padding: 8px 10px;
+}
+
+/*==================================================================
+[ Cart item photo — larger cover image ]
+The theme's default .how-itemcart1 is a tiny 60px thumbnail. Each cart
+line item shows the product's admin-marked cover photo (the starred
+photo in that product's own gallery), sized up so it's easy to recognize
+at a glance. */
+.how-itemcart1 {
+	width: 110px;
+}
+@media (max-width: 480px) {
+	.how-itemcart1 {
+		width: 84px;
+	}
+}
+
+/*==================================================================
+[ Cart remove ("x") button ]
+.how-itemcart1 is reused from the theme's product-thumbnail styling,
+which adds a full-size ::after overlay (a hover "quick view" tint) with
+no z-index of its own. Because ::after paints last, it silently sits on
+top of and swallows clicks meant for our remove button underneath it.
+Giving the button an explicit z-index puts it back above that overlay. */
+.js-cart-remove {
+	z-index: 5;
+}
+
+/*==================================================================
+[ Responsive: shopping cart table ]
+The theme's table has a hard min-width of 680px (see .table-shopping-cart
+in main.css) with a horizontal-scroll wrapper, which works but is a poor
+experience on phones — you end up scrolling sideways in a tiny strip to
+see price/quantity/total. Below 680px we reflow it into stacked cards
+instead, using the existing column classes with CSS-generated labels. */
+@media (max-width: 680px) {
+	.wrap-table-shopping-cart {
+		overflow: visible;
+		border: none;
+	}
+	.table-shopping-cart {
+		min-width: 0;
+		width: 100%;
+		display: block;
+	}
+	.table-shopping-cart .table_head {
+		display: none;
+	}
+	.table-shopping-cart tbody,
+	.table-shopping-cart .table_row,
+	.table-shopping-cart td {
+		display: block;
+		width: 100% !important;
+	}
+	.table-shopping-cart .table_row {
+		height: auto;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		padding: 16px 14px;
+		border: 1px solid #e6e6e6;
+		border-radius: 4px;
+		margin-bottom: 12px;
+	}
+	.table-shopping-cart .table_row td {
+		padding: 0 !important;
+	}
+	.table-shopping-cart .column-1 {
+		flex: 0 0 64px;
+		width: 64px !important;
+	}
+	.table-shopping-cart .column-1 img {
+		width: 64px;
+		height: 64px;
+		object-fit: cover;
+	}
+	.table-shopping-cart .column-2 {
+		flex: 1 1 calc(100% - 78px);
+		padding-left: 12px !important;
+		font-weight: 600;
+		align-self: flex-start;
+	}
+	.table-shopping-cart .column-3 {
+		flex: 0 0 50%;
+		margin-top: 12px;
+		font-size: 13px !important;
+		color: #999;
+	}
+	.table-shopping-cart .column-3::before {
+		content: "Price: ";
+		color: #bbb;
+	}
+	.table-shopping-cart .column-4 {
+		flex: 0 0 100%;
+		margin-top: 10px;
+		text-align: left !important;
+	}
+	.table-shopping-cart .column-4 .wrap-num-product {
+		margin-left: 0 !important;
+	}
+	.table-shopping-cart .column-5 {
+		flex: 0 0 50%;
+		margin-top: 12px;
+		padding: 0 !important;
+		text-align: right !important;
+		font-weight: 700;
+	}
+	.table-shopping-cart .column-5::before {
+		content: "Total: ";
+		font-weight: 400;
+		color: #bbb;
+	}
+	/* The "your cart is empty" row spans all columns — don't apply the
+	   per-column flex rules to it. */
+	.table-shopping-cart tr.cart-empty-row {
+		display: block;
+	}
+	.table-shopping-cart tr.cart-empty-row td {
+		text-align: center;
+	}
+}
+
+/*==================================================================
+[ Checkout details modal ]*/
+.checkout-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 2000;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+}
+.checkout-modal.show-checkout-modal {
+	display: flex;
+}
+.checkout-modal-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6);
+}
+.checkout-modal-card {
+	position: relative;
+	background: #fff;
+	width: 100%;
+	max-width: 440px;
+	max-height: 90vh;
+	overflow-y: auto;
+	padding: 36px 30px 30px;
+	border-radius: 2px;
+}
+.checkout-modal-close {
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	width: 26px;
+	height: 26px;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	opacity: 0.6;
+	transition: opacity 0.3s;
+}
+.checkout-modal-close:hover {
+	opacity: 1;
+}
+.checkout-modal-close img {
+	width: 100%;
+	height: 100%;
+}
+.checkout-modal-title {
+	font-family: PlayfairDisplay-Bold, serif;
+	font-size: 22px;
+	color: #222;
+	margin: 0 0 6px;
+}
+.checkout-modal-subtitle {
+	font-size: 13px;
+	color: #888;
+	margin: 0 0 22px;
+}
+.checkout-field-label {
+	display: block;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.4px;
+	color: #888;
+	margin-bottom: 6px;
+}
+.checkout-label-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+}
+.checkout-label-row .checkout-field-label {
+	margin-bottom: 6px;
+	flex: none;
+}
+.checkout-geo-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	border: none;
+	background: none;
+	color: #A67C27;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.2px;
+	cursor: pointer;
+	padding: 0 0 6px;
+	white-space: nowrap;
+}
+.checkout-geo-btn:hover {
+	text-decoration: underline;
+}
+.checkout-geo-btn:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+	text-decoration: none;
+}
+.checkout-geo-icon {
+	font-size: 12px;
+}
+.checkout-geo-status {
+	margin: -12px 0 16px;
+	font-size: 12px;
+	min-height: 0;
+}
+.checkout-geo-status.is-error {
+	color: #c0392b;
+}
+.checkout-geo-status.is-success {
+	color: #2e8b57;
+}
+.checkout-geo-status:empty {
+	margin: 0;
+}
+.checkout-input {
+	width: 100%;
+	padding: 11px 12px;
+	border: 1px solid #e2e2e2;
+	background: #fafafa;
+	font-size: 14px;
+	color: #222;
+	margin-bottom: 16px;
+	resize: vertical;
+	font-family: inherit;
+}
+.checkout-input:focus {
+	outline: none;
+	border-color: #A67C27;
+	background: #fff;
+}
+.checkout-textarea {
+	min-height: 54px;
+}
+.checkout-modal-error {
+	display: none;
+	background: #fdecea;
+	color: #c0392b;
+	border-left: 3px solid #c0392b;
+	padding: 10px 12px;
+	font-size: 13px;
+	margin-bottom: 16px;
+}
+.checkout-modal-error.show {
+	display: block;
+}
+.checkout-submit-btn {
+	width: 100%;
+	border: none;
+}
+.checkout-submit-btn:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+/* Phones */
+@media (max-width: 480px) {
+	.checkout-modal-card {
+		padding: 30px 20px 24px;
+	}
+
+}
+
+/*==================================================================
+[ Features bar — trust badges under the hero banners on the homepage ]*/
+.features-bar {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 34px 0;
+}
+.features-item {
+	flex: 1 1 25%;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 10px 20px;
+}
+.features-icon {
+	flex: 0 0 auto;
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	background: rgba(166, 124, 39, 0.12);
+	color: #A67C27;
+	font-size: 20px;
+}
+.features-txt h5 {
+	margin: 0 0 4px;
+}
+.features-txt p {
+	margin: 0;
+}
+
+@media (max-width: 991px) {
+	.features-item { flex: 1 1 50%; }
+}
+@media (max-width: 575px) {
+	.features-item { flex: 1 1 100%; }
+	.features-bar { padding: 22px 0; }
+}
+
+/*==================================================================
+[ Flash Sales carousel — homepage ]*/
+.flash-sales-track {
+	margin: 0 -12px;
+}
+.flash-sale-item {
+	display: block;
+	padding: 0 12px;
+}
+.flash-sale-pic {
+	display: block;
+	position: relative;
+	overflow: hidden;
+	border: 1px solid #e6e6e6;
+	margin-bottom: 14px;
+}
+.flash-sale-pic::before {
+	content: "";
+	display: block;
+	padding-top: 133%; /* 3:4 ratio, via the classic box-ratio technique for
+	                       maximum browser compatibility (vs. aspect-ratio) */
+}
+.flash-sale-pic img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.4s;
+}
+.flash-sale-pic:hover img {
+	transform: scale(1.05);
+}
+.flash-sale-pic:hover .block2-btn {
+	bottom: 20px;
+}
+.flash-sale-badge {
+	position: absolute;
+	top: 14px;
+	left: 14px;
+	background: #A67C27;
+	color: #fff;
+	font-family: Poppins-Medium;
+	font-size: 12px;
+	padding: 5px 12px;
+}
+.flash-sale-name {
+	display: block;
+	font-family: Poppins-SemiBold;
+	font-size: 16px;
+	color: #222;
+	margin-bottom: 6px;
+}
+.flash-sale-name:hover {
+	color: #A67C27;
+}
+.flash-sale-price {
+	font-family: Poppins-Medium;
+	font-size: 16px;
+}
+.flash-sale-oldprice {
+	color: #aaa;
+	text-decoration: line-through;
+	margin-right: 8px;
+	font-size: 14px;
+}
+.flash-sale-newprice {
+	color: #A67C27;
+}
+
+/* Slick ships without slick-theme.css in this project (the theme styles
+   its other sliders with custom arrow/dot markup instead), so the default
+   dots render unstyled. Style them to match the brand accent. */
+.flash-sales-track .slick-dots {
+	list-style: none;
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+	padding: 28px 0 0;
+	margin: 0;
+}
+.flash-sales-track .slick-dots li button {
+	width: 8px;
+	height: 8px;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background: #ddd;
+	color: transparent;
+	font-size: 0;
+	cursor: pointer;
+}
+.flash-sales-track .slick-dots li.slick-active button {
+	background: #A67C27;
+}
+
+/*==================================================================
+[ Deal Of The Week — sale page hero ]*/
+.deal-week-section {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	background: #f4f4f4;
+	min-height: 560px;
+}
+.deal-week-pic {
+	flex: 0 0 50%;
+	max-width: 50%;
+	overflow: hidden;
+}
+.deal-week-pic img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: 560px;
+	object-fit: cover;
+	object-position: top center;
+}
+.deal-week-content {
+	flex: 0 0 50%;
+	max-width: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 40px 20px;
+}
+.deal-week-title {
+	font-family: Poppins-Bold;
+	font-size: 40px;
+	color: #262626;
+	margin: 0;
+}
+.deal-week-divider {
+	width: 50px;
+	height: 3px;
+	background: #A67C27;
+	margin: 18px 0 40px;
+}
+.deal-week-countdown {
+	gap: 18px;
+	margin-bottom: 40px;
+}
+.deal-week-time-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.deal-week-time-circle {
+	width: 110px;
+	height: 110px;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 12px;
+}
+.deal-week-time-num {
+	font-family: Poppins-Bold;
+	font-size: 34px;
+	color: #A67C27;
+	line-height: 1;
+}
+.deal-week-time-label {
+	font-family: Poppins-Regular, sans-serif;
+	font-size: 15px;
+	color: #333;
+}
+.deal-week-btn {
+	display: inline-block;
+	background: #1a1a1a;
+	color: #fff;
+	font-family: Poppins-SemiBold;
+	font-size: 13px;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	padding: 17px 42px;
+	transition: background 0.3s;
+}
+.deal-week-btn:hover {
+	background: #A67C27;
+	color: #fff;
+}
+
+.hero-features-divider {
+	width: 100%;
+	height: 40px;
+	background: #fff;
+}
+
+@media (max-width: 991px) {
+	.deal-week-section { min-height: 0; }
+	.deal-week-pic, .deal-week-content {
+		flex: 0 0 100%;
+		max-width: 100%;
+	}
+	.deal-week-pic img { min-height: 320px; }
+	.deal-week-content { padding: 50px 20px; }
+	.deal-week-title { font-size: 32px; }
+}
+@media (max-width: 575px) {
+	.hero-features-divider { height: 24px; }
+}
+@media (max-width: 575px) {
+	.deal-week-time-circle { width: 84px; height: 84px; }
+	.deal-week-time-num { font-size: 26px; }
+	.deal-week-countdown { gap: 10px; }
+	.deal-week-btn { padding: 15px 32px; }
+}
+
+/*==================================================================
+[ Features bar — card variant used on the sale page hero ]
+Same markup/classes as the homepage features bar, but styled as
+separated light-grey cards with red outlined icons, matching the
+sale page's red accent instead of the homepage's blue-tinted icons. */
+.features-bar--cards {
+	gap: 2px;
+	background: #fff;
+	padding: 0;
+}
+.features-bar--cards .features-item {
+	flex: 1 1 calc(25% - 1.5px);
+	background: #f5f5f5;
+	padding: 30px 26px;
+	gap: 18px;
+}
+.features-bar--cards .features-icon {
+	width: 56px;
+	height: 56px;
+	background: transparent;
+	border: 2px solid #A67C27;
+	color: #A67C27;
+	font-size: 22px;
+}
+.features-bar--cards .features-txt h5 {
+	font-family: Poppins-SemiBold;
+	font-size: 14px;
+	letter-spacing: 0.3px;
+	text-transform: uppercase;
+	color: #262626;
+}
+.features-bar--cards .features-txt p {
+	font-size: 13px;
+	color: #888;
+}
+
+@media (max-width: 991px) {
+	.features-bar--cards .features-item { flex: 1 1 calc(50% - 1px); }
+}
+@media (max-width: 575px) {
+	.features-bar--cards .features-item { flex: 1 1 100%; }
+}
+
+/*==================================================================
+	COLLECTION BANNERS (sales.html)
+==================================================================*/
+.coll-banner-gap { margin-bottom: 30px; }
+
+.coll-banner {
+	position: relative;
+	overflow: hidden;
+	border-radius: 6px;
+	background: #f2f2f2;
+}
+
+/* Large split banner: photo on one side, text panel on the other */
+.coll-banner-split {
+	display: flex;
+	flex-wrap: wrap;
+	min-height: 480px;
+}
+.coll-banner-split .coll-banner-media {
+	flex: 1 1 55%;
+	min-height: 260px;
+	overflow: hidden;
+}
+.coll-banner-split .coll-banner-media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+.coll-banner-split .coll-banner-body {
+	flex: 1 1 45%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 40px 46px;
+}
+
+/* Small overlay banners: photo fills the card, text sits on top */
+.coll-banner-overlay {
+	min-height: 225px;
+	height: 100%;
+}
+.coll-banner-overlay img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.coll-banner-overlay-txt {
+	position: relative;
+	z-index: 2;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 30px 34px;
+	max-width: 62%;
+}
+
+.coll-banner-label {
+	display: block;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-size: 12.5px;
+	margin-bottom: 10px;
+}
+.coll-banner-title {
+	font-family: Poppins-Bold;
+	font-size: 34px;
+	line-height: 1.15;
+	color: #222;
+	margin: 0 0 14px;
+}
+.coll-banner-title-sm { font-size: 25px; margin-bottom: 12px; }
+.coll-banner-desc {
+	margin: 0 0 22px;
+	max-width: 320px;
+}
+.coll-banner-link {
+	font-family: Poppins-SemiBold;
+	font-size: 14px;
+	color: #222;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+.coll-banner-link i { font-size: 12px; transition: transform 0.25s; }
+.coll-banner-link:hover { color: #A67C27; }
+.coll-banner-link:hover i { transform: translateX(4px); }
+
+@media (max-width: 991px) {
+	.coll-banner-split { min-height: 0; }
+	.coll-banner-split .coll-banner-media { flex: 1 1 100%; min-height: 300px; }
+	.coll-banner-split .coll-banner-body { flex: 1 1 100%; padding: 30px 28px; }
+	.coll-banner-overlay { min-height: 260px; }
+	.coll-banner-overlay-txt { max-width: 75%; }
+}
+@media (max-width: 575px) {
+	.coll-banner-title { font-size: 27px; }
+	.coll-banner-overlay-txt { max-width: 85%; padding: 24px; }
+}
+
+/*==================================================================
+[ Shop search bar ]
+Replaces the old "Filter" / "Search" toggle buttons + slide-down
+search/filter panels with a single always-visible, always-usable
+search field. Live filtering + relevance sorting is wired up in
+js/shop-search.js — it targets .js-shop-search / .isotope-item /
+.js-name-b2, all already present in the product grid markup. */
+.shop-search-wrap {
+	position: relative;
+	width: 100%;
+	max-width: 360px;
+	margin-left: auto;
+}
+.shop-search-icon {
+	position: absolute;
+	top: 50%;
+	left: 18px;
+	transform: translateY(-50%);
+	font-size: 17px;
+	color: #999;
+	pointer-events: none;
+	transition: color 0.25s;
+}
+.shop-search-input {
+	width: 100%;
+	height: 48px;
+	padding: 0 42px 0 44px;
+	border: 1px solid #e5e5e5;
+	border-radius: 24px;
+	background-color: #fff;
+	font-family: Poppins-Regular;
+	font-size: 14px;
+	color: #222;
+	transition: border-color 0.25s, box-shadow 0.25s;
+}
+.shop-search-input::placeholder {
+	color: #adadad;
+}
+.shop-search-input:hover {
+	border-color: #c9c9c9;
+}
+.shop-search-input:focus {
+	outline: none;
+	border-color: #8C6620;
+	box-shadow: 0 0 0 3px rgba(108, 122, 224, 0.15);
+}
+.shop-search-input:focus ~ .shop-search-icon {
+	color: #8C6620;
+}
+.shop-search-clear {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	width: 26px;
+	height: 26px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	color: #b2b2b2;
+	font-size: 11px;
+	background: transparent;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s, background-color 0.2s, color 0.2s;
+}
+.shop-search-input:not(:placeholder-shown) ~ .shop-search-clear {
+	opacity: 1;
+	pointer-events: auto;
+}
+.shop-search-clear:hover {
+	background-color: #f2f2f2;
+	color: #666;
+}
+
+/* No-results state, shown by shop-search.js when a search term matches
+   nothing in the currently loaded grid. */
+.shop-search-empty {
+	width: 100%;
+	text-align: center;
+	padding: 60px 20px;
+	color: #999;
+	font-family: Poppins-Regular;
+	font-size: 15px;
+}
+
+@media (max-width: 575px) {
+	.shop-search-wrap {
+		max-width: 100%;
+		margin-left: 0;
+	}
+}
+
+/*==================================================================
+[ Wishlist ]
+Colors in the "Add to Wishlist" heart on the product-detail page /
+Quick View modal once js/wishlist.js has added that product — the
+grid-card heart's own filled/outline swap is already handled by the
+theme's existing .js-addedwish-b2 rule in main.css. */
+.js-addwish-detail.is-added-wish {
+	color: #A67C27;
+}
+
+/*==================================================================
+[ Contact page: "Send Us A Message" form ]
+The theme's icon-email.png image is sized/positioned by .how-pos4;
+the Name field uses a linearicons glyph instead of an image, so it
+needs its own font-size/color to sit at roughly the same visual
+weight and position. contact-whatsapp.js drives the actual submit
+behavior (builds a wa.me link instead of posting anywhere). */
+.contact-form-icon {
+	font-size: 16px;
+	color: #999;
+	line-height: 1;
+}
+.contact-form-msg {
+	display: none;
+	padding: 10px 12px;
+	font-size: 13px;
+	margin-bottom: 18px;
+	border-left: 3px solid transparent;
+}
+.contact-form-msg.show {
+	display: block;
+}
+.contact-form-msg.is-error {
+	background: #fdecea;
+	color: #c0392b;
+	border-left-color: #c0392b;
+}
+.contact-form-msg.is-success {
+	background: #eaf7ec;
+	color: #2e7d32;
+	border-left-color: #2e7d32;
+}
+
+/*==================================================================
+[ Footer: brand logo column ]
+Replaces the theme's default "Newsletter" signup column with the
+site's actual logo (same file used in the header), so the footer
+reinforces the brand instead of asking for an email a second time.
+The footer background is dark, so the logo (originally designed on
+white, with black wordmark) sits inside a light rounded badge here —
+that keeps it pixel-for-pixel identical to the header logo instead of
+using a separate recolored copy, while still staying legible.
+Sized with max-width instead of a fixed width so it shrinks cleanly
+on narrow screens — the column itself already stacks responsively
+via the shared col-sm-6 col-lg-3 grid classes used by every other
+footer column. */
+.footer-logo-col {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+.footer-logo-col .footer-logo-badge {
+	display: inline-block;
+	background-color: #fff;
+	padding: 14px 20px;
+	border-radius: 8px;
+	margin-bottom: 18px;
+	-webkit-box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+.footer-logo-col .footer-logo-img {
+	display: block;
+	max-width: 160px;
+	width: 100%;
+	height: auto;
+}
+.footer-logo-col .footer-logo-tagline {
+	max-width: 240px;
+}
+@media (max-width: 575px) {
+	.footer-logo-col {
+		align-items: center;
+		text-align: center;
+	}
+	.footer-logo-col .footer-logo-badge {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.footer-logo-col .footer-logo-img {
+		max-width: 130px;
+	}
+}
+
+/*==================================================================
+[ Mobile-only hero slider (homepage) ]
+The desktop hero above (.wrap-slick1) uses wide banner photos with
+background-size:cover — great on a widescreen, but on a narrow phone
+that crop cuts the model out of frame entirely. This is a second,
+independent slider built from portrait photos framed for mobile, and
+the two are swapped by breakpoint: only one is ever visible at a time,
+so there's no duplicate autoplay/height jump. See index.html for the
+.section-slide-mobile markup and js/slick-custom.js for its slick init. */
+.section-slide-mobile {
+	display: none;
+}
+@media (max-width: 767px) {
+	.section-slide {
+		display: none;
+	}
+	.section-slide-mobile {
+		display: block;
+	}
+}
+
+.wrap-slick-mobile-hero {
+	position: relative;
+}
+.item-slick-mobile-hero {
+	position: relative;
+	height: calc(100vh - 70px);
+	max-height: 640px;
+	min-height: 420px;
+	overflow: hidden;
+}
+.item-slick-mobile-hero img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: top center;
+}
+/* Soft gradient over the lower part of the photo so the title/subtitle
+   text stays readable regardless of how light or busy that part of the
+   photo is (the mustard slide in particular is quite pale). Sits above
+   the image but below the text/button/dots via z-index. */
+.item-slick-mobile-hero::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 58%;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+	pointer-events: none;
+	z-index: 1;
+}
+.mobile-hero-text {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 128px;
+	z-index: 2;
+	text-align: center;
+	padding: 0 30px;
+	opacity: 0;
+	transform: translateY(14px);
+	transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
+}
+.mobile-hero-eyebrow {
+	display: block;
+	color: #fff;
+	font-family: Poppins-Regular;
+	font-size: 13px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+.mobile-hero-heading {
+	color: #fff;
+	font-family: PlayfairDisplay-Bold;
+	font-size: 30px;
+	line-height: 1.15;
+	text-transform: uppercase;
+	margin: 8px 0 0;
+	text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+/* Only the currently-shown slide (not its off-screen fade partner) fades
+   its text in, so re-entering slides get the same subtle appear each time. */
+.slick-mobile-hero .slick-slide.slick-current .mobile-hero-text {
+	opacity: 1;
+	transform: translateY(0);
+}
+.mobile-hero-cta {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 26px;
+	display: flex;
+	justify-content: center;
+	z-index: 2;
+}
+/* Slick clones each slide's DOM for its infinite-loop track, which would
+   otherwise leave duplicate "Shop Now" buttons/text visible behind the
+   active one for a frame — hide them on any non-active clone. */
+.slick-mobile-hero .slick-slide:not(.slick-active) .mobile-hero-cta,
+.slick-mobile-hero .slick-slide:not(.slick-active) .mobile-hero-text {
+	display: none;
+}
+
+.slick-mobile-hero-dots {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 90px;
+	z-index: 3;
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.slick-mobile-hero-dots li button {
+	width: 8px;
+	height: 8px;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.55);
+	color: transparent;
+	font-size: 0;
+	cursor: pointer;
+}
+.slick-mobile-hero-dots li.slick-active button {
+	background: #fff;
+}
+
+/*==================================================================
+[ Size / Color variant pickers ]
+Replaces the old Size/Color <select> dropdowns on the product detail
+page and Quick View modal with two side-by-side pickable lists (chips):
+Size on the left, Color on the right. Populated per-product by
+js/product-detail-render.js and js/products-render.js from that
+product's own admin-managed `sizes` / `colors` arrays — a column is
+hidden entirely if the product has no values for that variant type. */
+.variant-picker-row {
+	gap: 30px;
+	margin-bottom: 18px;
+}
+.variant-picker-col {
+	flex: 1 1 0;
+	min-width: 0;
+}
+.variant-picker-label {
+	font-weight: 600;
+	margin-bottom: 10px;
+}
+.variant-picker-options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+.variant-chip {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 32px;
+	height: 34px;
+	padding: 0 8px;
+	background: #fff;
+	border: 1px solid #ebebeb;
+	border-radius: 4px;
+	color: #333;
+	font-size: 13px;
+	line-height: 1;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+.variant-chip:hover {
+	border-color: #A67C27;
+	color: #A67C27;
+}
+.variant-chip.is-selected {
+	background: #A67C27;
+	border-color: #A67C27;
+	color: #fff;
+}
+.variant-picker-col.is-invalid .variant-picker-label {
+	color: #c0392b;
+}
+.variant-picker-col.is-invalid .variant-picker-options {
+	outline: 1px solid #c0392b;
+	outline-offset: 6px;
+	border-radius: 4px;
+}
+
+@media (max-width: 420px) {
+	.variant-picker-row {
+		gap: 16px;
+	}
+	.variant-chip {
+		min-width: 36px;
+		height: 32px;
+		padding: 0 9px;
+		font-size: 12px;
+	}
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ Per-product photo gallery — thumbnail nav strip ]
+Replaces the theme's narrow side column of plain thumbnail dots with a
+horizontal filmstrip below the main photo, built and synced (via Slick's
+asNavFor) in js/product-detail-render.js and js/products-render.js. Same
+coverflow look the old standalone gallery page used: the center thumb is
+shown clear/full-size, the ones to either side sit dimmed and blurred, and
+its own prev/next buttons scroll through any thumbs that don't fit. */
+.slick3 {
+	width: 100%;
+	order: 1;
+}
+.wrap-slick3-dots {
+	width: 100%;
+	margin-top: 14px;
+	order: 2;
+}
+.wrap-slick3-arrows {
+	width: 100%;
+}
+.slick3-thumbs {
+	position: relative;
+	max-width: 320px;
+	margin: 0 auto;
+}
+.slick3-thumbs .slick-slide {
+	padding: 0 5px;
+	transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+	opacity: 0.45;
+	filter: blur(1.5px);
+	transform: scale(0.86);
+	cursor: pointer;
+}
+.slick3-thumbs .slick-slide.slick-center,
+.slick3-thumbs .slick-slide.slick-current {
+	opacity: 1;
+	filter: none;
+	transform: scale(1);
+}
+.slick3-thumb-item {
+	border-radius: 4px;
+	overflow: hidden;
+	aspect-ratio: 3 / 4;
+	border: 2px solid transparent;
+	transition: border-color 0.3s;
+}
+.slick3-thumbs .slick-slide.slick-center .slick3-thumb-item,
+.slick3-thumbs .slick-slide.slick-current .slick3-thumb-item {
+	border-color: #A67C27;
+}
+.slick3-thumb-item img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+.slick3-thumb-arrow {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 10;
+	width: 30px;
+	height: 30px;
+	border: none;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, 0.45);
+	color: #fff;
+	font-size: 13px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+.slick3-thumb-arrow:hover {
+	background: rgba(0, 0, 0, 0.8);
+}
+.slick3-thumb-prev { left: -6px; }
+.slick3-thumb-next { right: -6px; }
+@media (max-width: 767px) {
+	.slick3-thumbs .slick-slide {
+		padding: 0 3px;
+	}
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ Quick View modal — compact photo + thumbnail strip ]
+Shrinks the Quick View popup's main product photo and thumbnail strip
+down to a card-like size instead of stretching across the whole modal
+column — the coverflow filmstrip layout itself is the same shared one
+defined above. */
+.wrap-modal1 .wrap-slick3 {
+	max-width: 340px;
+	margin: 0 auto;
+}
+
+.wrap-modal1 .item-slick3 .wrap-pic-w {
+	aspect-ratio: 4 / 5;
+	overflow: hidden;
+}
+
+.wrap-modal1 .item-slick3 img {
+	width: 100%;
+	height: 100%;
+	-o-object-fit: cover;
+	object-fit: cover;
+	-o-object-position: center top;
+	object-position: center top;
+}
+
+.wrap-modal1 .slick3-thumbs {
+	max-width: 220px;
+}
+
+.wrap-modal1 .slick3-thumb-item {
+	aspect-ratio: 4 / 5;
+}
+
+/* =========================================
+   TEXT-ONLY COLOR THEMES (Nav & Buttons Untouched)
+   ========================================= */
+
+/* 1. Base text styles (Sizing, fonts, and max-width) */
+.ltext-101.cl2.respon2 {
+    font-family: 'Montserrat-Regular', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 6px !important; 
+    margin-bottom: 10px !important;
+    display: block !important;
+    text-shadow: 0px 2px 8px rgba(255, 255, 255, 0.6) !important; 
+}
+
+.ltext-201.cl2.p-t-19.p-b-43.respon1 {
+    font-family: 'PlayfairDisplay-Regular', serif !important; 
+    font-size: clamp(40px, 4vw, 60px) !important; 
+    font-weight: 400 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    line-height: 1.1 !important;
+    margin-top: 0 !important;
+    margin-bottom: 25px !important;
+    padding-top: 0 !important; 
+    padding-bottom: 20px !important; 
+    max-width: 800px !important; /* Stops text from stretching too wide */
+    text-shadow: 0px 2px 10px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* 2. Maroon Text (Slide 1) */
+.theme-maroon .ltext-101, 
+.theme-maroon .ltext-201 {
+    color: #4A1C2B !important; 
+}
+
+/* 3. Pink Text (Slide 2) */
+.theme-pink .ltext-101, 
+.theme-pink .ltext-201 {
+    color: #A61242 !important; 
+}
+
+/* 4. Mustard Yellow Text (Slide 3) */
+.theme-yellow .ltext-101, 
+.theme-yellow .ltext-201 {
+    color: #B8860B !important; 
+}
+
+/* Mobile Adjustments */
+@media (max-width: 991px) {
+    .ltext-201.cl2.p-t-19.p-b-43.respon1 {
+        font-size: 45px !important;
+        max-width: 100% !important;
+    }
+}
+@media (max-width: 575px) {
+    .ltext-201.cl2.p-t-19.p-b-43.respon1 {
+        font-size: 32px !important;
+    }
+    .ltext-101.cl2.respon2 {
+        font-size: 11px !important;
+        letter-spacing: 3px !important;
+    }
+}
+
+/* =========================================
+   TEXT & BUTTON COLOR THEMES
+   ========================================= */
+
+/* 1. Base text styles (Sizing, fonts, and max-width) */
+.ltext-101.cl2.respon2 {
+    font-family: 'Montserrat-Regular', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 6px !important; 
+    margin-bottom: 10px !important;
+    display: block !important;
+    text-shadow: 0px 2px 8px rgba(255, 255, 255, 0.6) !important; 
+}
+
+.ltext-201.cl2.p-t-19.p-b-43.respon1 {
+    font-family: 'PlayfairDisplay-Regular', serif !important; 
+    font-size: clamp(40px, 4vw, 60px) !important; 
+    font-weight: 400 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    line-height: 1.1 !important;
+    margin-top: 0 !important;
+    margin-bottom: 25px !important;
+    padding-top: 0 !important; 
+    padding-bottom: 20px !important; 
+    max-width: 800px !important; 
+    text-shadow: 0px 2px 10px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* 2. Maroon Theme (Slide 1) */
+.theme-maroon .ltext-101, 
+.theme-maroon .ltext-201 {
+    color: #4A1C2B !important; 
+}
+.theme-maroon .size-101 {
+    background-color: #4A1C2B !important;
+    border-color: #4A1C2B !important;
+    color: #fff !important;
+}
+.theme-maroon .size-101:hover {
+    background-color: transparent !important;
+    color: #4A1C2B !important;
+    border-color: #4A1C2B !important;
+}
+
+/* 3. Pink Theme (Slide 2) */
+.theme-pink .ltext-101, 
+.theme-pink .ltext-201 {
+    color: #A61242 !important; 
+}
+.theme-pink .size-101 {
+    background-color: #A61242 !important;
+    border-color: #A61242 !important;
+    color: #fff !important;
+}
+.theme-pink .size-101:hover {
+    background-color: transparent !important;
+    color: #A61242 !important;
+    border-color: #A61242 !important;
+}
+
+/* 4. Mustard Yellow Theme (Slide 3) */
+.theme-yellow .ltext-101, 
+.theme-yellow .ltext-201 {
+    color: #B8860B !important; 
+}
+.theme-yellow .size-101 {
+    background-color: #B8860B !important;
+    border-color: #B8860B !important;
+    color: #fff !important;
+}
+.theme-yellow .size-101:hover {
+    background-color: transparent !important;
+    color: #B8860B !important;
+    border-color: #B8860B !important;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 991px) {
+    .ltext-201.cl2.p-t-19.p-b-43.respon1 {
+        font-size: 45px !important;
+        max-width: 100% !important;
+    }
+}
+@media (max-width: 575px) {
+    .ltext-201.cl2.p-t-19.p-b-43.respon1 {
+        font-size: 32px !important;
+    }
+    .ltext-101.cl2.respon2 {
+        font-size: 11px !important;
+        letter-spacing: 3px !important;
+    }
+}
+
+
+/* White background behind the hero slider text ONLY */
+.section-slide .ltext-101,
+.section-slide .ltext-201 {
+    background-color: #ffffff;
+    display: inline-block; /* Makes the white box hug the text */
+    padding: 8px 20px;     /* Gives the text some breathing room */
+    margin-bottom: 10px;   /* Space between the lines */
+    border-radius: 8px;    /* <--- ROUNDS THE CORNERS */
+}
+
+/* Fix for the heading to ensure it stacks properly */
+.section-slide .ltext-201 {
+    margin-top: 10px;
+}
+
+/* Reset the fixed header so it sits normally at the top */
+.header-v4 .wrap-menu-desktop {
+    position: relative !important;
+    top: auto !important;
+}
+
+/* Remove the fixed height on the container so it hugs the header */
+.header-v4 .container-menu-desktop {
+    height: auto !important;
+}
+
+/* 1. Your fix: Static header by default (no gap at top) */
+.header-v4 .wrap-menu-desktop {
+    position: relative !important;
+    top: auto !important;
+}
+
+.header-v4 .container-menu-desktop {
+    height: auto !important;
+}
+
+/* 2. New fix: When scrolled, make it fixed at the top */
+.wrap-menu-desktop.is-sticky {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0;
+    width: 100%;
+    z-index: 1100;
+    background-color: #fff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* Adds a nice shadow when stuck */
+    animation: slideDown 0.3s ease; /* Smooth drop-in animation */
+}
+
+/* Slide down animation */
+@keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+/* Keep the container height correct when sticky */
+.wrap-menu-desktop.is-sticky .limiter-menu-desktop {
+    height: 80px; /* Adjust if your nav feels too tall/short when sticky */
+}

@@ -1,0 +1,12 @@
+{
+  "name": "jf-fashion-store",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JF Fashion clothing store with a password-protected admin panel for managing products (Vercel Functions + Vercel Blob storage).",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.5.0"
+  }
+}
